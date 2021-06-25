@@ -6,7 +6,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "setup": "npm install && npm run bootstrap --hoist"
   },
   "bugs": {
     "url": "https://github.com/wenytang-ms-123/testavc/issues"

@@ -1,20 +1,12 @@
-name: CD
+name: CD on Main
 
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "which version to bump(major, minor, patch, premajor, preminor, prepatch, prerelease)"
-        required: true
-        default: "prerelease"
       preid:
-        description: "preid name(alpha or rc)"
+        description: "preid name(stable or rc)"
         required: false
-        default: "alpha"
-      force:
-        description: "force release even if no update(set --force-publish if necessary)"
-        required: false
-        default: ""
+        default: "rc"
   schedule:
     - cron: "0 8 * * *"
 
@@ -53,6 +45,11 @@ jobs:
           git config --global user.email 'wenytang@wenytang.onmicrosoft.com'
 
       - name: release prerelease npm packages to npmjs.org
-        if: ${{ startsWith(github.event.inputs.version, 'pre') }}
+        if: ${{ startsWith(github.event.inputs.preid, 'rc') }}
         run: |
-          npx lerna publish --no-private --preid=${{github.event.inputs.preid }} --dist-tag=${{github.event.inputs.preid }} ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
+          npx lerna publish --conventional-prerelease --preid=${{github.event.inputs.preid }} --yes 
+
+      - name: release stable npm packages to npmjs.org
+        if: ${{ startsWith(github.event.inputs.preid, 'stable') }}
+        run: |
+          npx lerna publish --conventional-graduate --yes

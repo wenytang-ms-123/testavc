@@ -3,12 +3,202 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [3.7.0-alpha.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.0...@wenyt-ms/test1@3.7.0-alpha.0) (2021-06-19)
+# [5.0.0-alpha.1](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@5.0.0-alpha.0...@wenyt-ms/test1@5.0.0-alpha.1) (2021-06-23)
+
+
+### Bug Fixes
+
+* test1 ([a67643c](https://github.com/wenytang-ms-123/testavc/commit/a67643c3ad06551ee362629e833f200fd2a38d4b))
+* typo ([c1d9e7f](https://github.com/wenytang-ms-123/testavc/commit/c1d9e7fa6b138afa5c8514e9bafed7689b3eb2c3))
 
 
 ### Features
 
+* remove console log ([47046a5](https://github.com/wenytang-ms-123/testavc/commit/47046a51a444d423071fd2f33c64243db440dfc2))
+
+
+
+
+
+# [5.0.0-alpha.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.4.2-alpha.600dfd9.0...@wenyt-ms/test1@5.0.0-alpha.0) (2021-06-22)
+
+
+### Features
+
+* add console log ([bac3233](https://github.com/wenytang-ms-123/testavc/commit/bac32335e255e6e4858e7bd95c5b0a5ebb50a774))
+* BREAKING CHANGE ([63ccf10](https://github.com/wenytang-ms-123/testavc/commit/63ccf10ce92f4963abca5d074763cef6b68c57b1))
+
+
+### BREAKING CHANGES
+
+* remove other logs
+
+
+
+
+
+## [4.4.1](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.4.1-alpha.5c74aa9.0...@wenyt-ms/test1@4.4.1) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+# [4.4.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.4.0-rc.0...@wenyt-ms/test1@4.4.0) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+# [4.4.0-rc.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.3.0...@wenyt-ms/test1@4.4.0-rc.0) (2021-06-22)
+
+
+### Features
+
+* test1 ([f3b7917](https://github.com/wenytang-ms-123/testavc/commit/f3b79170c44b6a7ab5a06eb63c06fbae07bed2c0))
+
+
+
+
+
+# [4.3.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.3.0-rc.0...@wenyt-ms/test1@4.3.0) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+# [4.3.0-rc.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.2.1...@wenyt-ms/test1@4.3.0-rc.0) (2021-06-22)
+
+
+### Features
+
+* update version: ([50295e6](https://github.com/wenytang-ms-123/testavc/commit/50295e65dd008bce3dc3fb6ea7f60fb76cffa775))
+
+
+
+
+
+## [4.2.1](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.2.1-rc.0...@wenyt-ms/test1@4.2.1) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+## [4.2.1-rc.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.1.2-alpha.35e6515.0...@wenyt-ms/test1@4.2.1-rc.0) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+## [4.2.1-alpha.e94682d.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.1.2-alpha.35e6515.0...@wenyt-ms/test1@4.2.1-alpha.e94682d.0) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+## [4.1.2-alpha.35e6515.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@4.1.1...@wenyt-ms/test1@4.1.2-alpha.35e6515.0) (2021-06-22)
+
+
+### Features
+
+* **test1:** test1 ([35e6515](https://github.com/wenytang-ms-123/testavc/commit/35e6515a384950f9796eafa9dbdb7c83d7d2229d))
+* **test1:** test1 ([9d52f46](https://github.com/wenytang-ms-123/testavc/commit/9d52f46aea0c6e6cfe681bb44cce8aa916b920d9))
+
+
+
+
+
+## [4.1.1](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.2...@wenyt-ms/test1@4.1.1) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+## [3.6.2](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.2-rc.1...@wenyt-ms/test1@3.6.2) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+## [3.6.2-rc.1](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.2-rc.0...@wenyt-ms/test1@3.6.2-rc.1) (2021-06-22)
+
+
+### Bug Fixes
+
+* fix test1 ([5fbeb9e](https://github.com/wenytang-ms-123/testavc/commit/5fbeb9e5a69b2af4872f4948eb7c2460e2ffaa3d))
+
+
+
+
+
+## [3.6.2-rc.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.2-alpha.1...@wenyt-ms/test1@3.6.2-rc.0) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+## [3.6.2-alpha.1](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.2-alpha.0...@wenyt-ms/test1@3.6.2-alpha.1) (2021-06-22)
+
+
+### Features
+
+* test1 ([3659446](https://github.com/wenytang-ms-123/testavc/commit/365944697c990341607d4b2be14fca00e520ebf0))
+
+
+
+
+
+## [3.6.2-alpha.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.1...@wenyt-ms/test1@3.6.2-alpha.0) (2021-06-22)
+
+
+### Features
+
+* **sdk:** test1' ([ebbc131](https://github.com/wenytang-ms-123/testavc/commit/ebbc13155e06d682b30abadeccdc3b53e095eee0))
 * test1 ([7861fc1](https://github.com/wenytang-ms-123/testavc/commit/7861fc15ea4566890449cf929a860ab24c70b972))
+
+
+
+
+
+## [3.6.1](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.1-rc.1...@wenyt-ms/test1@3.6.1) (2021-06-22)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
+## [3.6.1-rc.1](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.1-rc.0...@wenyt-ms/test1@3.6.1-rc.1) (2021-06-22)
+
+
+### Bug Fixes
+
+* fix test1 ([53f9c20](https://github.com/wenytang-ms-123/testavc/commit/53f9c2036e46fd5a581aa1f17a10f4c84e9b9b29))
+
+
+
+
+
+## [3.6.1-rc.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@3.6.0...@wenyt-ms/test1@3.6.1-rc.0) (2021-06-19)
+
+**Note:** Version bump only for package @wenyt-ms/test1
 
 
 
