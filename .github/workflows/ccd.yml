@@ -1,0 +1,24 @@
+name: "CD On main"
+
+on:
+  pull_request_target:
+    branches:
+      - maven
+      - dev 
+
+jobs:
+  source-branch-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Setup
+        run: |
+          npm run setup
+
+      - name: echo
+        run: |
+          less package.json
