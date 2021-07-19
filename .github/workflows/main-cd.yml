@@ -11,7 +11,7 @@ on:
     - cron: "0 8 * * *"
 
 jobs:
-  cd:
+  cd-main:
     runs-on: ubuntu-latest
 
     steps:
