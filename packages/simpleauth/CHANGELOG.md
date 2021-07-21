@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.2.0 (2021-07-21)
+
+**Note:** Version bump only for package simpleauth
+
+
+
+
+
 # [0.2.0-rc.1](https://github.com/wenytang-ms-123/testavc/compare/simpleauth@0.2.0-rc.0...simpleauth@0.2.0-rc.1) (2021-07-20)
 
 **Note:** Version bump only for package simpleauth
