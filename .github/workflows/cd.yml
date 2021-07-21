@@ -3,36 +3,21 @@ name: CD
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "which version to bump(major, minor, patch, premajor, preminor, prepatch, prerelease)"
-        required: true
-        default: "prerelease"
       preid:
         description: "preid name(alpha or rc)"
-        required: false
+        required: true
         default: "alpha"
-      force:
-        description: "force release even if no update(set --force-publish if necessary)"
-        required: false
-        default: ""
-  schedule:
-    - cron: "0 8 * * *"
 
 jobs:
   cd:
     runs-on: ubuntu-latest
 
     steps:
-      - name: validate branch
-        if: ${{ (github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/maven') || (github.ref == 'refs/heads/develop' && (!startsWith(github.event.inputs.version, 'pre') || github.event.inputs.preid != 'alpha')) || (github.ref == 'refs/heads/maven' && startsWith(github.event.inputs.version, 'pre') && github.event.inputs.preid != 'rc') }}
-        run: |
-          exit 1
-
       - name: Checkout dev branch
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          ref: maven
+          ref: ${{ github.ref }}
 
       - name: Setup node
         uses: actions/setup-node@v2.1.2
@@ -42,6 +27,17 @@ jobs:
       - name: Setup npm registry
         run: |
           echo "${{ secrets.NPMRC }}" > ~/.npmrc
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: 3.1.x
+
+      - name: Build SimpleAuth
+        run: |
+          dotnet restore
+          dotnet build --configuration Release --no-restore
+        working-directory: ./packages/simpleauth
       
       - name: Setup project
         run: |
@@ -52,12 +48,64 @@ jobs:
           git config --global user.name 'wenytang-ms-123'
           git config --global user.email 'wenytang@wenytang.onmicrosoft.com'
 
-      - id: check
-        run: |
-          echo "lerna diff simple"
-
       - name: release prerelease npm packages to npmjs.org
-        if: ${{ startsWith(github.event.inputs.version, 'pre') }}
         run: |
-          npx lerna publish --preid=${{github.event.inputs.preid }} --dist-tag=${{github.event.inputs.preid }} ${{ github.event.inputs.version }} --yes ${{ github.event.inputs.force }}
+          npx lerna version --conventional-commits --conventional-prerelease --preid=${{github.event.inputs.preid }}  --yes
 
+      - name: output versoin check
+        id: version-change
+        run: |
+          echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
+          echo "::set-output name=TEST1_VERSION::$(git tag --points-at HEAD | grep test1)"
+          echo "::set-output name=SIMPLE_VERSOIN::$(git tag --points-at HEAD | grep simpleauth | awk -F '@' '{print$2}')"
+          if git tag --points-at HEAD | grep test2 | grep rc;
+          then
+              git push -d origin $(git tag --points-at HEAD | grep test2 | grep rc)
+          fi 
+
+      - name: Update Template Tag list Release
+        if: ${{ contains(steps.version-change.outputs.CHANGED, 'test1@') }}
+        uses: ncipollo/release-action@v1.7.3
+        with:
+          artifacts: ./packages/test1/*.zip
+          name: $(release for $(tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'test1@'))
+          body: 'Release to maintain template tag list.'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.version-change.outputs.TEST1_VERSION }}
+          allowUpdates: true  
+
+      - name: check test1
+        if: ${{ steps.version-change.outputs.TEST1_VERSION }}
+        run: |
+          tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'test1@'
+
+      - name: check test2
+        if: ${{ contains(steps.version-change.outputs.CHANGED, 'test2@') }}
+        run: |
+          tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'test2@'
+      
+      - name: check test3
+        if: ${{ contains(steps.version-change.outputs.CHANGED, 'test3@') }}
+        run: |
+          tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'test3@'
+
+      - name: check simple
+        if: ${{ contains(steps.version-change.outputs.CHANGED, 'simple@') }}
+        run: |
+          tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'simple@'
+
+      - name: Zip dotnet
+        uses: papeloto/action-zip@v1
+        with:
+          files: ./packages/simpleauth/src/TeamsFxSimpleAuth/bin/Release/netcoreapp3.1
+          dest: ./Microsoft.TeamsFx.SimpleAuth_${{ steps.version-change.outputs.SIMPLE_VERSOIN }}.zip
+      
+      - name: Release SimpleAuth to GitHub
+        uses: ncipollo/release-action@v1.7.3
+        with:
+          artifacts: ./Microsoft.TeamsFx.SimpleAuth_${{ steps.version-change.outputs.SIMPLE_VERSOIN }}.zip
+          name: 'SimpleAuth Release'
+          body: 'Release SimpleAuth to GitHub Release page.'
+          token: ${{ secrets.github_token }}
+          tag: ${{ steps.version-change.outputs.SIMPLE_VERSOIN }}
+          allowUpdates: true  

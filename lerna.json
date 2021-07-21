@@ -1,5 +1,5 @@
 {
-    "packages": ["packages/test*", "packages/simple"],
+    "packages": ["packages/test*", "packages/simple", "packages/simpleauth"],
     "version": "independent",
     "command":{
         "publish": {
