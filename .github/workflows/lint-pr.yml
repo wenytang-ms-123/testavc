@@ -36,6 +36,6 @@ jobs:
           npm run setup
       - name: Check for uncommitted changes
         run: |
-          if [-z $(git status --porcelain)]; then
+          if [-z "$(git status --porcelain)"]; then
             exit 1
           fi
