@@ -18,7 +18,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: check prepare
         run: |
-          npm run prepare
-          npx lerna run prepare
+          npm run setup
       - name: Check for uncommitted changes
         uses: mskri/check-uncommitted-changes-action@v1.0.1
