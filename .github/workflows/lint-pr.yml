@@ -21,25 +21,5 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && github.pull_request.types != 'edited' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout dev branch
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref }}
-
-      - name: Setup node
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: 14
-
-      - name: check prepare
-        run: |
-          npm run setup
-      
-      - name: Check if there are changes
-        id: changes
-        uses: UnicornGlobal/has-changes-action@v1.0.11
-      
-      - name: changes result
-        if: steps.changes.outputs.changed == 1
-        run:
-          exit 1
+    - name: hello
+      echo "123"
