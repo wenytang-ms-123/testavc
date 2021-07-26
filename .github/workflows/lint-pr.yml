@@ -19,6 +19,8 @@ jobs:
 
   check uncommit:
     if: ${{ github.event_name == 'pull_request' && github.pull_request.types != 'edited' }}
+    runs-on: ubuntu-latest
+    steps:
       - name: check prepare
         run: |
           npm run setup
