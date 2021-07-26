@@ -23,4 +23,4 @@ jobs:
     steps:
       - name: Checkout dev branch
         run: |
-          echo "123"
+          echo ${github.pull_request.action}
