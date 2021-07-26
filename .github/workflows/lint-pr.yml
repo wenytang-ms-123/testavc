@@ -24,4 +24,4 @@ jobs:
       - name: Checkout dev branch
         run: |
           echo ${{ github.event_name }}
-          echo ${{ github.pull_request.action }}
+          echo ${{ github.pull_request.action.types }}
