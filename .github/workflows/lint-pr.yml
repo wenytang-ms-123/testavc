@@ -13,7 +13,12 @@ jobs:
     steps:
       # Please look up the latest version from
       # https://github.com/amannn/action-semantic-pull-request/releases
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: amannn/action-semantic-pull-request@v3.4.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: check prepare
+        run: |
+          npm run prepare
+          npx lerna run prepare
+      - name: Check for uncommitted changes
+        uses: mskri/check-uncommitted-changes-action@v1.0.1
