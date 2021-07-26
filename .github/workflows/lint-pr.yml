@@ -23,4 +23,5 @@ jobs:
     steps:
       - name: Checkout dev branch
         run: |
-          echo ${github.event_name}
+          echo ${{ github.event_name }}
+          echo ${{ github.action }}
