@@ -34,8 +34,12 @@ jobs:
       - name: check prepare
         run: |
           npm run setup
-      - name: Check for uncommitted changes
-        run: |
-          if [-z "${git status --porcelain}"]; then
-            exit 1
-          fi
+      
+      - name: Check if there are changes
+        id: changes
+        uses: UnicornGlobal/has-changes-action@v1.0.11
+      
+      - name: changes result
+        if: steps.changes.outputs.changed == 1
+        run:
+          exit 1
