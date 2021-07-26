@@ -23,4 +23,4 @@ jobs:
     steps:
       - name: Checkout dev branch
         run: |
-          echo ${github.pull_request.action}
+          echo ${github.event_name}
