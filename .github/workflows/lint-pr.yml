@@ -21,5 +21,6 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && github.pull_request.types != 'edited' }}
     runs-on: ubuntu-latest
     steps:
-    - name: hello
-      echo "123"
+      - name: Checkout dev branch
+        run: |
+          echo "123"
