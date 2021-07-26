@@ -35,4 +35,7 @@ jobs:
         run: |
           npm run setup
       - name: Check for uncommitted changes
-        uses: mskri/check-uncommitted-changes-action@v1.0.1
+        run: |
+          if git status --porcelain; then
+            exit 1
+          fi
