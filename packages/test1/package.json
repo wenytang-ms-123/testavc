@@ -7,8 +7,7 @@
         "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
         "lint:fix": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --fix",
         "precommit": "lint-staged",
-        "publish": "echo 123123123",
-        "prepare": "touch a"
+        "publish": "echo 123123123"
     },
     "devDependencies": {
         "@shared/eslint-config": "file:../eslint-config",
