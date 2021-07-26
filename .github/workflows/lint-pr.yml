@@ -17,7 +17,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  check uncommit:
+  check-uncommit:
     if: ${{ github.event_name == 'pull_request' && github.pull_request.types != 'edited' }}
     runs-on: ubuntu-latest
     steps:
