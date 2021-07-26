@@ -16,8 +16,12 @@ jobs:
       - uses: amannn/action-semantic-pull-request@v3.4.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: check prepare
+
+  check-uncommit:
+    if: ${{ github.event_name == 'pull_request' && github.event.action != 'edited' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev branch
         run: |
-          npm run setup
-      - name: Check for uncommitted changes
-        uses: mskri/check-uncommitted-changes-action@v1.0.1
+          echo ${{ github.event_name }}
+          echo ${{ github.event.action }}
