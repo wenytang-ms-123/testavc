@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
       - name: check cccc
         run: |
           touch a.txt
@@ -20,12 +25,6 @@ jobs:
           if [[ '${{github.event.inputs.preid}}' == "stable" && ! -z "$(git diff --cached)" ]]; then
             echo "heheh"
           fi
-
-      # - name: Checkout dev branch
-      #   uses: actions/checkout@v2
-      #   with:
-      #     fetch-depth: 0
-      #     ref: ${{ github.ref }}
 
       # - name: Setup node
       #   uses: actions/setup-node@v2.1.2
