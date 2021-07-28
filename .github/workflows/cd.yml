@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: check cccc
         run: |
-          if [ '${{github.event.inputs.preid}}' == 'alpha' ] then
+          if [ '${{github.event.inputs.preid}}' == 'alpha' ]; then
             echo "heheh"
           fi
 
