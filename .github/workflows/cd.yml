@@ -22,8 +22,11 @@ jobs:
         run: |
           touch a.txt
           git add .
-          if [[ '${{github.event.inputs.preid}}' == 'alpha' && ! -z "$(git diff --cached)" ]]; then
+          if [[ '${{github.event.inputs.preid}}' == 'alpha' ]]; then
             echo "heheh"
+          fi
+          if [[ ! -z "$(git diff --cached)" ]]; then
+            echo '123'
           fi
 
       # - name: Setup node
