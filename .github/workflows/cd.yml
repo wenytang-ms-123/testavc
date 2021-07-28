@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: check cccc
+        run: |
+          echo ${{github.github.event.inputs.preid}}
+          exit 0
+
       - name: Checkout dev branch
         uses: actions/checkout@v2
         with:
