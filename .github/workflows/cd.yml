@@ -15,7 +15,9 @@ jobs:
     steps:
       - name: check cccc
         run: |
-          if [ '${{github.event.inputs.preid}}' == 'alpha' ]; then
+          touch a.txt
+          git add .
+          if [[ '${{github.event.inputs.preid}}' == "stable" && ! -z "$(git diff --cached)" ]]; then
             echo "heheh"
           fi
 
