@@ -15,7 +15,9 @@ jobs:
     steps:
       - name: check cccc
         run: |
-          echo ${{github.event.inputs.preid}}
+          if [ ${{github.event.inputs.preid}} == 'alpha' ] then
+            echo "heheh"
+          fi
 
       # - name: Checkout dev branch
       #   uses: actions/checkout@v2
