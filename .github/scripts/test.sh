@@ -8,10 +8,8 @@
 # fi
 
 # var=${git diff --cached}
-touch a.txt 
-git add .
-
-if [[ ! -z "$(git diff --cached)" ]]
-then 
-    echo 'hello'
-fi
+touch a.txt
+          git add .
+          if [[ '${{github.event.inputs.preid}}' == "stable" && ! -z "$(git diff --cached)" ]]; then
+            echo "heheh"
+          fi
