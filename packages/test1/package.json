@@ -1,6 +1,6 @@
 {
     "name": "@wenyt-ms/test1",
-    "version": "6.17.1-rc.1",
+    "version": "6.17.1-rc.2",
     "aiKey": "888888",
     "scripts": {
         "lint:staged": "lint-staged",
