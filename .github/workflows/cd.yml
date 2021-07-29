@@ -89,7 +89,7 @@ jobs:
           echo ${{ env.template_ver }}
 
       - name: ccccccccc
-        if: ${{ contains(env.template_version, 'templates@') }}
+        if: ${{ contains(env.template_ver, 'templates@') }}
         run: |
           echo 'cccccccc'
 
