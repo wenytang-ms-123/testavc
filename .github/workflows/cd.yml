@@ -45,17 +45,6 @@ jobs:
       - name: Setup npm registry
         run: |
           echo "${{ secrets.NPMRC }}" > ~/.npmrc
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1.7.2
-        with:
-          dotnet-version: 3.1.x
-
-      - name: Build SimpleAuth
-        run: |
-          dotnet restore
-          dotnet build --configuration Release --no-restore
-        working-directory: ./packages/simpleauth
       
       - name: Setup project
         run: |
@@ -86,10 +75,10 @@ jobs:
         id: version-change
         run: |
           echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
-          echo '****************** $(git tag --points-at HEAD | xargs)'
+          echo "****************** $(git tag --points-at HEAD | xargs)"
           echo "::set-output name=TEST1_VERSION::$(git tag --points-at HEAD | grep test1)"
           echo "TEMPLATE_VERSION=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV
-          echo '-------------- %TEMPLATE_VERSION'
+          echo '-------------- $TEMPLATE_VERSION'
           if git tag --points-at HEAD | grep templates | grep rc;
           then
               git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
