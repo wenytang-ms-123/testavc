@@ -86,8 +86,10 @@ jobs:
         id: version-change
         run: |
           echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
+          echo '****************** $(git tag --points-at HEAD | xargs)'
           echo "::set-output name=TEST1_VERSION::$(git tag --points-at HEAD | grep test1)"
           echo "TEMPLATE_VERSION=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV
+          echo '-------------- %TEMPLATE_VERSION'
           if git tag --points-at HEAD | grep templates | grep rc;
           then
               git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
