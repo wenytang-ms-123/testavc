@@ -76,70 +76,69 @@ jobs:
         run: |
           echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
           echo "****************** $(git tag --points-at HEAD | xargs)"
-          echo "::set-output name=TEST1_VERSION::$(git tag --points-at HEAD | grep test1)"
-          echo "template_version=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV
-          echo '-------------- ${{ env.template_version }}'
+          echo "template_ver=$(git tag --points-at HEAD | grep templates@)" >> $GITHUB_ENV
+          echo '-------------- ${{ env.template_ver }}'
           if git tag --points-at HEAD | grep templates | grep rc;
           then
               git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
           fi
-          echo "==================== ${{ env.template_version }}"
+          echo "==================== ${{ env.template_ver }}"
 
-      - name: publish rc npm packages to npmjs.org
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
-        run: |
-          npx lerna publish from-package --dist-tag=rc --yes
+      # - name: publish rc npm packages to npmjs.org
+      #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
+      #   run: |
+      #     npx lerna publish from-package --dist-tag=rc --yes
 
-      - name: publish stable npm packages to npmjs.org
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'stable' }}
-        run: |
-          npx lerna publish from-package --yes
+      # - name: publish stable npm packages to npmjs.org
+      #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'stable' }}
+      #   run: |
+      #     npx lerna publish from-package --yes
 
-      - name: sync up templates dependency on maven release
-        if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') }}
-        run: |
-         cd templates
-          npm run preversion
-          if [[ '${{github.event.inputs.preid}}' == 'stable' && ! -z "$(git diff --cached)" ]]; then
-          git commit -m "chore: update template dependencies"
-          cd ..
-          npx lerna version conventional-commits --amend --yes
-          echo "template_version=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV 
-          fi
+      # - name: sync up templates dependency on maven release
+      #   if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') }}
+      #   run: |
+      #    cd templates
+      #     npm run preversion
+      #     if [[ '${{github.event.inputs.preid}}' == 'stable' && ! -z "$(git diff --cached)" ]]; then
+      #     git commit -m "chore: update template dependencies"
+      #     cd ..
+      #     npx lerna version conventional-commits --amend --yes
+      #     echo "template_version=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV 
+      #     fi
 
-      - name: Zip dotnet
-        uses: papeloto/action-zip@v1
-        with:
-          files: ./templates/simple
-          dest: ./simple.zip
+      # - name: Zip dotnet
+      #   uses: papeloto/action-zip@v1
+      #   with:
+      #     files: ./templates/simple
+      #     dest: ./simple.zip
 
-      - name: release templates' alpha version to github
-        if: ${{ github.event.inputs.preid == 'alpha' && contains('${{ env.template_version }}', 'templates@') }}
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.github_token }}
-          prerelease: true
-          automatic_release_tag: "templates@0.0.0-alpha"
-          files: |
-            ./*.zip
+      # - name: release templates' alpha version to github
+      #   if: ${{ github.event.inputs.preid == 'alpha' && contains('${{ env.template_version }}', 'templates@') }}
+      #   uses: marvinpinto/action-automatic-releases@latest
+      #   with:
+      #     repo_token: ${{ secrets.github_token }}
+      #     prerelease: true
+      #     automatic_release_tag: "templates@0.0.0-alpha"
+      #     files: |
+      #       ./*.zip
 
-      - name: release templates' RC version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains('${{ env.template_version }}', 'templates@') }}
-        uses: marvinpinto/action-automatic-releases@latest
-        with:
-          repo_token: ${{ secrets.github_token }}
-          prerelease: true
-          automatic_release_tag: "templates@0.0.0-rc"
-          files: |
-            ./*.zip
+      # - name: release templates' RC version to github
+      #   if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains('${{ env.template_version }}', 'templates@') }}
+      #   uses: marvinpinto/action-automatic-releases@latest
+      #   with:
+      #     repo_token: ${{ secrets.github_token }}
+      #     prerelease: true
+      #     automatic_release_tag: "templates@0.0.0-rc"
+      #     files: |
+      #       ./*.zip
       
-      - name: Create Templates Stable Release
-        if: ${{ contains('${{ env.template_version }}', 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
-        uses: ncipollo/release-action@v1.7.3
-        with:
-          artifacts: ./*.zip
-          name: 'Release for ${{ env.template_version }}'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.template_version }}
-          allowUpdates: true
+      # - name: Create Templates Stable Release
+      #   if: ${{ contains('${{ env.template_version }}', 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
+      #   uses: ncipollo/release-action@v1.7.3
+      #   with:
+      #     artifacts: ./*.zip
+      #     name: 'Release for ${{ env.template_version }}'
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: ${{ env.template_version }}
+      #     allowUpdates: true
       
