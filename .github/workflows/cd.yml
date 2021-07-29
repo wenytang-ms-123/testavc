@@ -101,7 +101,7 @@ jobs:
           npx lerna publish from-package --yes
 
       - name: sync up templates dependency on maven release
-        if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') }}
+        if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') && contains(steps.version-change.outputs.CHANGED, '@wenyt-ms/test1@') }}
         run: |
           npm run preversion --prefix ./templates
           if [[ '${{github.event.inputs.preid}}' == 'stable' && ! -z "$(git diff --cached -- templates)" ]]; then
