@@ -103,11 +103,9 @@ jobs:
       - name: sync up templates dependency on maven release
         if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') }}
         run: |
-          cd templates
-          npm run preversion
-          if [[ '${{github.event.inputs.preid}}' == 'stable' && ! -z "$(git diff --cached)" ]]; then
+          npm run preversion --prefix ./templates
+          if [[ '${{github.event.inputs.preid}}' == 'stable' && ! -z "$(git diff --cached -- templates)" ]]; then
           git commit -m "chore: update template dependencies"
-          cd ..
           npx lerna version --conventional-commits --no-changelog --ignore-scripts --yes
           echo "template_ver=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV 
           fi
