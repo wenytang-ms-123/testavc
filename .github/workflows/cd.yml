@@ -114,7 +114,7 @@ jobs:
           dest: ./simple.zip
 
       - name: release templates' alpha version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'alpha' && contains(${{ env.TEMPLATE_VERSION }}, 'templates@') }}
+        if: ${{ github.event.inputs.preid == 'alpha' && contains('${{ env.TEMPLATE_VERSION }}', 'templates@') }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
@@ -124,7 +124,7 @@ jobs:
             ./*.zip
 
       - name: release templates' RC version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains(${{ env.TEMPLATE_VERSION }}, 'templates@') }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains('${{ env.TEMPLATE_VERSION }}', 'templates@') }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
@@ -134,7 +134,7 @@ jobs:
             ./*.zip
       
       - name: Create Templates Stable Release
-        if: ${{ contains(${{ env.TEMPLATE_VERSION }}, 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
+        if: ${{ contains('${{ env.TEMPLATE_VERSION }}', 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
         uses: ncipollo/release-action@v1.7.3
         with:
           artifacts: ./*.zip
