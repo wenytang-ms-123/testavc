@@ -103,7 +103,7 @@ jobs:
       - name: sync up templates dependency on maven release
         if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') }}
         run: |
-         cd templates
+          cd templates
           npm run preversion
           if [[ '${{github.event.inputs.preid}}' == 'stable' && ! -z "$(git diff --cached)" ]]; then
           git commit -m "chore: update template dependencies"
@@ -129,7 +129,7 @@ jobs:
             ./*.zip
 
       - name: release templates' RC version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains(env.template_ver , 'templates@') }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
