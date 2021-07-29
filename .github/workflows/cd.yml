@@ -4,15 +4,33 @@ on:
   workflow_dispatch:
     inputs:
       preid:
-        description: "preid name(alpha or rc)"
+        description: "preid name(alpha, rc or stable)"
         required: true
-        default: "alpha"
+        default: "rc"
 
 jobs:
   cd:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate CD branch
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/maven' && github.ref != 'refs/heads/dev' }}
+        run: |
+          echo It's not allowed to run CD on other branch except maven and dev.
+          exit 1
+
+      - name: Validate inputs for maven
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid != 'rc' && github.event.inputs.preid != 'stable' }}
+        run: |
+          echo It's not allowed to release alpha on maven branch.
+          exit 1
+
+      - name: Valiadte inputs for dev
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev' && github.event.inputs.preid != 'alpha' }}
+        run: |
+          echo It's not allowed to release RC or stable on dev branch.
+          exit 1
+      
       - name: Checkout branch
         uses: actions/checkout@v2
         with:
@@ -48,32 +66,89 @@ jobs:
           git config --global user.name 'wenytang-ms-123'
           git config --global user.email 'wenytang@wenytang.onmicrosoft.com'
 
-      - name: release prerelease npm packages to npmjs.org
+      - name: release alpha npm packages to npmjs.org
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev' && github.event.inputs.preid == 'alpha' }}
         run: |
-          npx lerna version --conventional-commits --conventional-prerelease --preid=${{github.event.inputs.preid }}  --yes
+          npx lerna version prerelease --preid=alpha.$(git rev-parse --short HEAD) --exact --no-push --allow-branch dev --yes --force-publish templates
+          npx lerna publish from-package --dist-tag=alpha --yes --allow-branch dev
+
+      - name: release prerelease npm packages to npmjs.org
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
+        run: |
+          npx lerna version --conventional-commits --conventional-prerelease --preid=rc --no-changelog --yes --ignore-scripts
+
+      - name: release stable npm packages to npmjs.org
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'stable' }}
+        run: |
+          npx lerna version --conventional-commits --conventional-graduate --yes
 
       - name: output versoin check
         id: version-change
         run: |
           echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
           echo "::set-output name=TEST1_VERSION::$(git tag --points-at HEAD | grep test1)"
+          echo "TEMPLATE_VERSION=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV
+          if git tag --points-at HEAD | grep templates | grep rc;
+          then
+              git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
+          fi
 
-      - name: check test1
-        if: ${{ steps.version-change.outputs.TEST1_VERSION }}
+      - name: publish rc npm packages to npmjs.org
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.preid == 'rc' }}
         run: |
-          tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'test1@'
+          npx lerna publish from-package --dist-tag=rc --yes
 
-      - name: check test2
-        if: ${{ contains(steps.version-change.outputs.CHANGED, 'test2@') }}
+      - name: publish stable npm packages to npmjs.org
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && github.event.inputs.preid == 'stable' }}
         run: |
-          tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'test2@'
+          npx lerna publish from-package --yes
+
+      - name: sync up templates dependency on main release
+        if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') }}
+        run: |
+         cd templates
+          npm run preversion
+          if [[ '${{github.event.inputs.preid}}' == 'stable' && ! -z "$(git diff --cached)" ]]; then
+          git commit -m "chore: update template dependencies"
+          cd ..
+          npx lerna version conventional-commits --amend --yes
+          echo "TEMPLATE_VERSION=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV 
+          fi
+
+      - name: Zip dotnet
+        if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') }}
+        uses: papeloto/action-zip@v1
+        with:
+          files: ./tempaltes/simple
+          dest: ./simple.zip
+
+      - name: release templates' alpha version to github
+        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'alpha' }}
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.github_token }}
+          prerelease: true
+          automatic_release_tag: "templates@0.0.0-alpha"
+          files: |
+            ./*.zip
+
+      - name: release templates' RC version to github
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' }}
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.github_token }}
+          prerelease: true
+          automatic_release_tag: "templates@0.0.0-rc"
+          files: |
+            ./*.zip
       
-      - name: check test3
-        if: ${{ contains(steps.version-change.outputs.CHANGED, 'test3@') }}
-        run: |
-          tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'test3@'
-
-      - name: check simple
-        if: ${{ contains(steps.version-change.outputs.CHANGED, 'templates@') }}
-        run: |
-          tr ' ' '\n' <<< '${{ steps.version-change.outputs.CHANGED }}' | grep 'simple@'
+      - name: Create Templates Stable Release
+        if: ${{ contains(${{ $TEMPLATE_VERSION }}, 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
+        uses: ncipollo/release-action@v1.7.3
+        with:
+          artifacts: ./*.zip
+          name: 'Release for $TEMPLATE_VERSION'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "$TEMPLATE_VERSION"
+          allowUpdates: true
+      
