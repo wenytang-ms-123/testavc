@@ -118,7 +118,7 @@ jobs:
       - name: Zip dotnet
         uses: papeloto/action-zip@v1
         with:
-          files: ./tempaltes/simple
+          files: ./templates/simple
           dest: ./simple.zip
 
       - name: release templates' alpha version to github
