@@ -85,9 +85,13 @@ jobs:
           echo "==================== ${{ env.template_ver }}"
        
       - name: output
-        id: ouput env
         run: |
           echo ${{ env.template_ver }}
+
+      - name: ccccccccc
+        if: ${{ contains('${{ env.template_version }}', 'templates@') }}
+        run: |
+          echo "111111"
 
       # - name: publish rc npm packages to npmjs.org
       #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
