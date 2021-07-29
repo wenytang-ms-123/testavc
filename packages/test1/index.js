@@ -1,2 +1,2 @@
 module.exports = "test1";
-console.log("hello world 111");
+console.log("hello world");
