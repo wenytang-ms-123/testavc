@@ -1,6 +1,6 @@
 {
   "name": "templates",
-  "version": "1.0.1-rc.3",
+  "version": "1.0.1-rc.4",
   "description": "",
   "private": "true",
   "scripts": {
@@ -9,7 +9,7 @@
     "preversion": "node ./scripts/sync-up-version.js && git add ."
   },
   "dependencies": {
-    "@wenyt-ms/test1": "6.17.1-rc.0"
+    "@wenyt-ms/test1": "^6.17.1-rc.1"
   },
   "keywords": [],
   "author": "",
