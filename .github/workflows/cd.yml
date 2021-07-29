@@ -108,7 +108,7 @@ jobs:
           if [[ '${{github.event.inputs.preid}}' == 'stable' && ! -z "$(git diff --cached)" ]]; then
           git commit -m "chore: update template dependencies"
           cd ..
-          npx lerna version conventional-commits --amend --yes
+          npx lerna version --conventional-commits --amend --yes
           echo "template_ver=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV 
           fi
 
