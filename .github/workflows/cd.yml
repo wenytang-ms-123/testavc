@@ -83,6 +83,11 @@ jobs:
               git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
           fi
           echo "==================== ${{ env.template_ver }}"
+       
+      - name: output
+        id: ouput env
+        run: |
+          echo ${{ env.template_ver }}
 
       # - name: publish rc npm packages to npmjs.org
       #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
