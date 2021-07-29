@@ -77,13 +77,13 @@ jobs:
           echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
           echo "****************** $(git tag --points-at HEAD | xargs)"
           echo "::set-output name=TEST1_VERSION::$(git tag --points-at HEAD | grep test1)"
-          echo "TEMPLATE_VERSION=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV
-          echo '-------------- ${{ env.TEMPLATE_VERSION }}'
+          echo "template_version=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV
+          echo '-------------- ${{ env.template_version }}'
           if git tag --points-at HEAD | grep templates | grep rc;
           then
               git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
           fi
-          echo "==================== ${{ env.TEMPLATE_VERSION }}"
+          echo "==================== ${{ env.template_version }}"
 
       - name: publish rc npm packages to npmjs.org
         if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
@@ -104,7 +104,7 @@ jobs:
           git commit -m "chore: update template dependencies"
           cd ..
           npx lerna version conventional-commits --amend --yes
-          echo "TEMPLATE_VERSION=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV 
+          echo "template_version=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV 
           fi
 
       - name: Zip dotnet
@@ -114,7 +114,7 @@ jobs:
           dest: ./simple.zip
 
       - name: release templates' alpha version to github
-        if: ${{ github.event.inputs.preid == 'alpha' && contains('${{ env.TEMPLATE_VERSION }}', 'templates@') }}
+        if: ${{ github.event.inputs.preid == 'alpha' && contains('${{ env.template_version }}', 'templates@') }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
@@ -124,7 +124,7 @@ jobs:
             ./*.zip
 
       - name: release templates' RC version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains('${{ env.TEMPLATE_VERSION }}', 'templates@') }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains('${{ env.template_version }}', 'templates@') }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
@@ -134,12 +134,12 @@ jobs:
             ./*.zip
       
       - name: Create Templates Stable Release
-        if: ${{ contains('${{ env.TEMPLATE_VERSION }}', 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
+        if: ${{ contains('${{ env.template_version }}', 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
         uses: ncipollo/release-action@v1.7.3
         with:
           artifacts: ./*.zip
-          name: 'Release for ${{ env.TEMPLATE_VERSION }}'
+          name: 'Release for ${{ env.template_version }}'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ env.TEMPLATE_VERSION }}
+          tag: ${{ env.template_version }}
           allowUpdates: true
       
