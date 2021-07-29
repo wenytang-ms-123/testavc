@@ -8,9 +8,6 @@
     "publish": "echo  ================= ",
     "preversion": "node ./scripts/sync-up-version.js && git add ."
   },
-  "dependencies": {
-    "@wenyt-ms/test1": "^6.17.1-rc.1"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
