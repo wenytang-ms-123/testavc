@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [7.0.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@7.0.0-rc.0...@wenyt-ms/test1@7.0.0) (2021-07-29)
+
+**Note:** Version bump only for package @wenyt-ms/test1
+
+
+
+
+
 # [6.18.0](https://github.com/wenytang-ms-123/testavc/compare/@wenyt-ms/test1@6.18.0-rc.0...@wenyt-ms/test1@6.18.0) (2021-07-29)
 
 **Note:** Version bump only for package @wenyt-ms/test1
