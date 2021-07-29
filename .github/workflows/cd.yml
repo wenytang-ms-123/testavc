@@ -122,7 +122,7 @@ jobs:
           dest: ./simple.zip
 
       - name: release templates' alpha version to github
-        if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'alpha' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'alpha' && contains('$TEMPLATE_VERSION', 'templates@') }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
@@ -132,7 +132,7 @@ jobs:
             ./*.zip
 
       - name: release templates' RC version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains('$TEMPLATE_VERSION', 'templates@') }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
