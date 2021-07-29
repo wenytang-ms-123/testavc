@@ -78,12 +78,12 @@ jobs:
           echo "****************** $(git tag --points-at HEAD | xargs)"
           echo "::set-output name=TEST1_VERSION::$(git tag --points-at HEAD | grep test1)"
           echo "TEMPLATE_VERSION=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV
-          echo '-------------- $TEMPLATE_VERSION'
+          echo '-------------- ${{ env.TEMPLATE_VERSION }}'
           if git tag --points-at HEAD | grep templates | grep rc;
           then
               git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
           fi
-          echo "==================== $TEMPLATE_VERSION"
+          echo "==================== ${{ env.TEMPLATE_VERSION }}"
 
       - name: publish rc npm packages to npmjs.org
         if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
@@ -114,7 +114,7 @@ jobs:
           dest: ./simple.zip
 
       - name: release templates' alpha version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'alpha' && contains('$TEMPLATE_VERSION', 'templates@') }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'alpha' && contains(${{ env.TEMPLATE_VERSION }}, 'templates@') }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
@@ -124,7 +124,7 @@ jobs:
             ./*.zip
 
       - name: release templates' RC version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains('$TEMPLATE_VERSION', 'templates@') }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' &&  contains(${{ env.TEMPLATE_VERSION }}, 'templates@') }}
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.github_token }}
@@ -134,12 +134,12 @@ jobs:
             ./*.zip
       
       - name: Create Templates Stable Release
-        if: ${{ contains('$TEMPLATE_VERSION', 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
+        if: ${{ contains(${{ env.TEMPLATE_VERSION }}, 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
         uses: ncipollo/release-action@v1.7.3
         with:
           artifacts: ./*.zip
-          name: 'Release for $TEMPLATE_VERSION'
+          name: 'Release for ${{ env.TEMPLATE_VERSION }}'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "$TEMPLATE_VERSION"
+          tag: ${{ env.TEMPLATE_VERSION }}
           allowUpdates: true
       
