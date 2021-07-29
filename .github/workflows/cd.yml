@@ -116,7 +116,6 @@ jobs:
           fi
 
       - name: Zip dotnet
-        if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') }}
         uses: papeloto/action-zip@v1
         with:
           files: ./tempaltes/simple
