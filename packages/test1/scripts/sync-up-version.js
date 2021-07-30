@@ -5,7 +5,7 @@ const fse = require("fs-extra");
 
 const sdkVersion = require(path.join(__dirname, "../package.json")).version;
 const sdkName = require(path.join(__dirname, "../package.json")).name;
-
+console.log(`======== sdk name: ${sdkName}, ========== sdk version: ${sdkVersion}`)
 function listFile(dir, list = []) {
   const arr = fse.readdirSync(dir);
   arr.forEach(function (item) {
@@ -48,6 +48,7 @@ if (change && needBumpUp) {
   let ver = pkg_.version;
   ver = semver.inc(ver, "patch");
   pkg_.version = ver;
+  console.log('============', ver)
   writePkg(file, pkg_);
 
   file = path.join(template_dir, "package-lock.json");
