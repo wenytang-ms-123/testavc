@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish": "echo  ================= ",
-    "preversion": "node ./scripts/sync-up-version.js && git add .",
+    "preversion": "if [ -z \"$(git diff --cached -- ../packages/test1/package.json)\" ]; then node ../../templates/scripts/sync-up-version.js; git add ../../templates; fi",
     "test1": "echo test"
   },
   "keywords": [],

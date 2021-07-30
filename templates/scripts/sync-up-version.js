@@ -35,8 +35,9 @@ for (file of dep_pkgs) {
         dep_map.set(sdk_name, sdk_version);
       } else if (!semver.intersects(dep_map.get(sdk_name), sdk_version)) {
         dep_map.set(sdk_name, `^${sdk_version}`);
+      } else {
+        continue;
       }
-      else continue;
       change = true;
       pkg_.dependencies = Object.fromEntries(dep_map);
       writePkg(file, pkg_);
@@ -44,7 +45,8 @@ for (file of dep_pkgs) {
   }
 }
 
-let needBumpUp = process.argv0 === 'yes' ? true: false;
+console.log('-----', process.argv[2], '----', change)
+let needBumpUp = process.argv[2] === "yes" ? true: false;
 if(change && needBumpUp) {
   let file = path.join(template_dir, "package.json")
   console.log('path======', file);
