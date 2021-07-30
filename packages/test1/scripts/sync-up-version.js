@@ -44,7 +44,7 @@ for (let file of depPkgs) {
 let needBumpUp = process.argv[2] === "yes" ? true : false;
 if (change && needBumpUp) {
   let file = path.join(templateDir, "package.json");
-  let pkg_ = loadJsonFile.sync(file);
+  let pkg_ = fse.readJsonSync(file);
   let ver = pkg_.version;
   ver = semver.inc(ver, "patch");
   pkg_.version = ver;
@@ -52,7 +52,7 @@ if (change && needBumpUp) {
   writePkg(file, pkg_);
 
   file = path.join(templateDir, "package-lock.json");
-  pkg_ = loadJsonFile.sync(file);
+  pkg_ = fse.readJsonSync(file);
   pkg_.version = ver;
   writePkg(file, pkg_);
 }
