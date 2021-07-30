@@ -21,7 +21,7 @@ function listFile(dir, list = []) {
   });
   return list;
 }
-
+console.log("hello =========================");
 const template_dir = path.join(__dirname, "..");
 const dep_pkgs = listFile(template_dir);
 let change = false;
