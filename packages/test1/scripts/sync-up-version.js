@@ -51,8 +51,8 @@ if (change && needBumpUp) {
   console.log('============', ver)
   writePkg(file, pkg_);
 
-  file = path.join(templateDir, "package-lock.json");
-  pkg_ = fse.readJsonSync(file);
-  pkg_.version = ver;
-  writePkg(file, pkg_);
+  // file = path.join(templateDir, "package-lock.json");
+  // pkg_ = fse.readJsonSync(file);
+  // pkg_.version = ver;
+  // writePkg(file, pkg_);
 }
