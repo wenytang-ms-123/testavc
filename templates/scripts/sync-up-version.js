@@ -6,7 +6,7 @@ const semver = require("semver");
 
 const sdk_version = require(path.join(__dirname, "../../packages/test1/package.json")).version;
 const sdk_name = require(path.join(__dirname, "../../packages/test1/package.json")).name;
-
+console.log("sdk_name ==== ", sdk_name, "  | sdk_version === ", sdk_version)
 function listFile(dir, list = []) {
   var arr = fs.readdirSync(dir);
   arr.forEach(function (item) {
