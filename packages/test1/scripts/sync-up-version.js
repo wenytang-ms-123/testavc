@@ -1,57 +1,57 @@
-const fs = require("fs");
-var path = require("path");
-const loadJsonFile = require("load-json-file");
+const path = require("path");
 const writePkg = require("write-pkg");
 const semver = require("semver");
+const fse = require("fs-extra");
 
-const sdk_version = require(path.join(__dirname, "../package.json")).version;
-const sdk_name = require(path.join(__dirname, "../package.json")).name;
-console.log("hello")
+const sdkVersion = require(path.join(__dirname, "../package.json")).version;
+const sdkName = require(path.join(__dirname, "../package.json")).name;
+
 function listFile(dir, list = []) {
-  var arr = fs.readdirSync(dir);
+  const arr = fse.readdirSync(dir);
   arr.forEach(function (item) {
-    var fullpath = path.join(dir, item);
-    var stats = fs.statSync(fullpath);
     if (item === "node_modules") return list;
+    const fullpath = path.join(dir, item);
+    const stats = fse.statSync(fullpath);
     if (stats.isDirectory()) {
       listFile(fullpath, list);
-    } else {
-      if (item === "package.json") list.push(fullpath);
+    } else if (item === "package.json") {
+      list.push(fullpath);
     }
   });
   return list;
 }
 
-const template_dir = path.join(__dirname, "../../../templates/");
-const dep_pkgs = listFile(template_dir);
+const templateDir = path.join(__dirname, "../../../templates");
+const depPkgs = listFile(templateDir);
 let change = false;
-for (file of dep_pkgs) {
-  let pkg_ = loadJsonFile.sync(file);
-  let dep = pkg_.dependencies;
-  if (dep) {
-    let dep_map = new Map(Object.entries(dep));
-    if (dep_map.get(sdk_name)) {
-      if (semver.prerelease(sdk_version)) {
-        dep_map.set(sdk_name, sdk_version);
-      } else if (!semver.intersects(dep_map.get(sdk_name), sdk_version)) {
-        dep_map.set(sdk_name, `^${sdk_version}`);
-      } else {
-          continue;
-      }
-      change = true;
-      pkg_.dependencies = Object.fromEntries(dep_map);
-      writePkg(file, pkg_);
+for (let file of depPkgs) {
+  const pkg_ = fse.readJsonSync(file);
+  const dep = pkg_.dependencies;
+  if (dep && dep[sdkName]) {
+    if (semver.prerelease(sdkVersion)) {
+      dep[sdkName] = sdkVersion;
+    } else if (!semver.intersects(dep[sdkName], sdkVersion)) {
+      dep[sdkName] = `^${sdkVersion}`;
+    } else {
+      continue;
     }
+    change = true;
+    pkg_.dependencies = dep;
+    writePkg(file, pkg_);
   }
 }
 
-if(change) {
-    let file = path.join(template_dir, "package.json")
-    console.log('path======', file);
-    let pkg_ = loadJsonFile.sync(file);
-    let ver = pkg_.version;
-    ver = semver.inc(ver, "patch");
-    console.log('ver ====', ver)
-    pkg_.version = ver;
-    writePkg(file, pkg_);
+let needBumpUp = process.argv[2] === "yes" ? true : false;
+if (change && needBumpUp) {
+  let file = path.join(template_dir, "package.json");
+  let pkg_ = loadJsonFile.sync(file);
+  let ver = pkg_.version;
+  ver = semver.inc(ver, "patch");
+  pkg_.version = ver;
+  writePkg(file, pkg_);
+
+  file = path.join(template_dir, "package-lock.json");
+  pkg_ = loadJsonFile.sync(file);
+  pkg_.version = ver;
+  writePkg(file, pkg_);
 }
