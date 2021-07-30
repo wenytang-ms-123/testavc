@@ -8,8 +8,13 @@
 # fi
 
 # var=${git diff --cached}
-touch a.txt
-          git add .
-          if [[ '${{github.event.inputs.preid}}' == "stable" && ! -z "$(git diff --cached)" ]]; then
-            echo "heheh"
-          fi
+# touch a.txt
+#           git add .
+#           if [[ '${{github.event.inputs.preid}}' == "stable" && ! -z "$(git diff --cached)" ]]; then
+#             echo "heheh"
+#           fi
+
+echo $(git diff -- ./templates)
+if [ -z "$(git diff -- ./templates)" ]; then 
+  node ./packages/test1/scripts/sync-up-version.js
+fi
