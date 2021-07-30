@@ -7,7 +7,7 @@
         "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
         "lint:fix": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --fix",
         "precommit": "lint-staged",
-        "version": "if [ -z \"$(git diff -- ../../templates)\" ]; then node ../../templates/scripts/sync-up-version.js yes; git add ../../templates; fi",
+        "version": "./scripts/version.sh",
         "postversion": "./scripts/postversion.sh"
     },
     "devDependencies": {
