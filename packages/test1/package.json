@@ -1,5 +1,5 @@
 {
-    "name": "@wenyt-ms/test1",
+    "name": "@wenytang-ms-123/test1",
     "version": "9.0.4",
     "aiKey": "888888",
     "scripts": {
@@ -22,5 +22,5 @@
             "npx prettier --config .prettierrc.js --ignore-unknown --write --ignore-path .prettierignore "
         ]
     },
-    "gitHead": "148bd69563cc1c0db3b283c5fbca79e377cd4bda"
+    "gitHead": "9189c5efc7c6d2eba2f668dfae99139da0e47839"
 }
