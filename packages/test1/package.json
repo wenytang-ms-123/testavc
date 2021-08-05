@@ -1,6 +1,6 @@
 {
-    "name": "@wenytang-ms-123/test1",
-    "version": "10.0.0",
+    "name": "@wenytang-ms/test1",
+    "version": "7.0.0",
     "aiKey": "888888",
     "scripts": {
         "lint:staged": "lint-staged",
