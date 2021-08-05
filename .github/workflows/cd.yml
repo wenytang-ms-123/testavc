@@ -90,15 +90,15 @@ jobs:
       #   run: |
       #     echo 'cccccccc'
 
-      - name: publish rc npm packages to npmjs.org
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
-        run: |
-          npx lerna publish from-package --dist-tag=rc --yes
+      # - name: publish rc npm packages to npmjs.org
+      #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'rc' }}
+      #   run: |
+      #     npx lerna publish from-package --dist-tag=rc --yes
 
-      - name: publish stable npm packages to npmjs.org
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'stable' }}
-        run: |
-          npx lerna publish from-package --yes
+      # - name: publish stable npm packages to npmjs.org
+      #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'stable' }}
+      #   run: |
+      #     npx lerna publish from-package --yes
 
       - name: sync up templates dependency on maven release
         if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') && contains(steps.version-change.outputs.CHANGED, '@wenyt-ms/test1@') }}
