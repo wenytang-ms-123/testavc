@@ -118,23 +118,25 @@ jobs:
 
       - name: release templates' alpha version to github
         if: ${{ github.event.inputs.preid == 'alpha' && contains( env.template_ver , 'templates@') }}
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: ncipollo/release-action@v1.7.3
         with:
-          repo_token: ${{ secrets.github_token }}
+          artifacts: ./*.zip
+          name: 'Release for ${{ env.template_ver }}'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "templates@0.0.0-alpha"
+          allowUpdates: true
           prerelease: true
-          automatic_release_tag: "templates@0.0.0-alpha"
-          files: |
-            ./*.zip
 
       - name: release templates' RC version to github
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' }}
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: ncipollo/release-action@v1.7.3
         with:
-          repo_token: ${{ secrets.github_token }}
+          artifacts: ./*.zip
+          name: 'Release for ${{ env.template_ver }}'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "templates@0.0.0-rc"
+          allowUpdates: true
           prerelease: true
-          automatic_release_tag: "templates@0.0.0-rc"
-          files: |
-            ./*.zip
       
       - name: Create Templates Stable Release
         if: ${{ contains( env.template_ver, 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
