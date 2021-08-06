@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: test warning
         run: |
-          echo ${GITHUB_REF#refs/*/}
+          echo ===================== ${GITHUB_REF#refs/*/}
       # - name: Validate CD branch
       #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/maven' && github.ref != 'refs/heads/dev' }}
       #   run: |
