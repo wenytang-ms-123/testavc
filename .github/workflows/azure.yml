@@ -10,5 +10,5 @@ jobs:
       uses: Azure/pipelines@releases/v1
       with:
         azure-devops-project-url: 'https://dev.azure.com/mseng/VSIoT'
-        azure-pipeline-name: 'Build Function Extension Release Artifacts' 
+        azure-pipeline-name: 'Build Simple Auth Release Artifacts' 
         azure-devops-token: '${{ secrets.ADO_PAT }}'
