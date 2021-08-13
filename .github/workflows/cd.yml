@@ -111,17 +111,22 @@ jobs:
       #     tag: "templates@0.0.0-alpha"
       #     allowUpdates: true
       #     prerelease: true
+      - name: Tag Repo
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: "templates@0.0.0-rc"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: release templates' RC version to github
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1.7.3
         with:
-          files: ./*.zip
-          name: 'Release for templates rc version'
+          artifacts: ./*.zip
+          name: 'Release for ${{ steps.version-change.outputs.TEMPLATE_VERSION }}'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: "templates@0.0.0-rc"
-          target_commitish: ${{ steps.GitCommit.outputs.CHANGED }}
-          prerelease: true
+          tag: "templates@0.0.0-rc"
+          allowUpdates: true
       
       # - name: Create Templates Stable Release
       #   if: ${{ contains( env.template_ver, 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
