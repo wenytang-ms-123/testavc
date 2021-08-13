@@ -64,7 +64,7 @@ jobs:
       - name: release prerelease npm packages to npmjs.org
         if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/wenyt/chore/templateRc' && github.event.inputs.preid == 'rc' }}
         run: |
-          npx lerna version --conventional-commits --conventional-prerelease --preid=rc --no-changelog --yes --ignore-scripts --no-push --allow-brnach wenyt/chore/templateRc
+          npx lerna version --conventional-commits --conventional-prerelease --preid=rc --no-changelog --yes --ignore-scripts --no-push --allow-branch wenyt/chore/templateRc
 
       # - name: release stable npm packages to npmjs.org
       #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'stable' }}
