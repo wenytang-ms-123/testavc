@@ -76,10 +76,6 @@ jobs:
         run: |
           echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
           echo "template_ver=$(git tag --points-at HEAD | grep templates@)" >> $GITHUB_ENV
-          if git tag --points-at HEAD | grep templates | grep rc;
-          then
-              git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
-          fi
        
       # - name: sync up templates dependency on maven release
       #   if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') && contains(steps.version-change.outputs.CHANGED, '@wenyt-ms/test1@') }}
