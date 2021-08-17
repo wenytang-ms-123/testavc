@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: echo trigger
+        run: |
+          echo $GITHUB_ACTOR
       # - name: Validate CD branch
       #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/maven' && github.ref != 'refs/heads/dev' }}
       #   run: |
@@ -31,51 +34,51 @@ jobs:
       #     echo It's not allowed to release RC or stable on dev branch.
       #     exit 1
       
-      - name: Checkout branch
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: ${{ github.ref }}
+      # - name: Checkout branch
+      #   uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: 0
+      #     ref: ${{ github.ref }}
 
-      - name: Setup node
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: 14
+      # - name: Setup node
+      #   uses: actions/setup-node@v2.1.2
+      #   with:
+      #     node-version: 14
 
-      - name: Setup npm registry
-        run: |
-          echo "${{ secrets.NPMRC }}" > ~/.npmrc
+      # - name: Setup npm registry
+      #   run: |
+      #     echo "${{ secrets.NPMRC }}" > ~/.npmrc
       
-      - name: Setup project
-        run: |
-          npm run setup
+      # - name: Setup project
+      #   run: |
+      #     npm run setup
 
-      - name: Setup git
-        run: |
-          git config --global user.name 'wenytang-ms-123'
-          git config --global user.email 'wenytang@wenytang.onmicrosoft.com'
+      # - name: Setup git
+      #   run: |
+      #     git config --global user.name 'wenytang-ms-123'
+      #     git config --global user.email 'wenytang@wenytang.onmicrosoft.com'
 
-      - name: release alpha npm packages to npmjs.org
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev' && github.event.inputs.preid == 'alpha' }}
-        run: |
-          npx lerna version prerelease --preid=alpha.$(git rev-parse --short HEAD) --exact --no-push --allow-branch dev --yes --force-publish templates
-          npx lerna publish from-package --dist-tag=alpha --yes --allow-branch dev
+      # - name: release alpha npm packages to npmjs.org
+      #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/dev' && github.event.inputs.preid == 'alpha' }}
+      #   run: |
+      #     npx lerna version prerelease --preid=alpha.$(git rev-parse --short HEAD) --exact --no-push --allow-branch dev --yes --force-publish templates
+      #     npx lerna publish from-package --dist-tag=alpha --yes --allow-branch dev
 
-      - name: release prerelease npm packages to npmjs.org
-        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/wenyt/chore/templateRc' && github.event.inputs.preid == 'rc' }}
-        run: |
-          npx lerna version --conventional-commits --conventional-prerelease --preid=rc --no-changelog --yes --ignore-scripts --no-push --allow-branch wenyt/chore/templateRc
+      # - name: release prerelease npm packages to npmjs.org
+      #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/wenyt/chore/templateRc' && github.event.inputs.preid == 'rc' }}
+      #   run: |
+      #     npx lerna version --conventional-commits --conventional-prerelease --preid=rc --no-changelog --yes --ignore-scripts --no-push --allow-branch wenyt/chore/templateRc
 
       # - name: release stable npm packages to npmjs.org
       #   if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/maven' && github.event.inputs.preid == 'stable' }}
       #   run: |
       #     npx lerna version --conventional-commits --conventional-graduate --yes
 
-      - name: output versoin check
-        id: version-change
-        run: |
-          echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
-          echo "template_ver=$(git tag --points-at HEAD | grep templates@)" >> $GITHUB_ENV
+      # - name: output versoin check
+      #   id: version-change
+      #   run: |
+      #     echo "::set-output name=CHANGED::$(git tag --points-at HEAD | xargs)"
+      #     echo "template_ver=$(git tag --points-at HEAD | grep templates@)" >> $GITHUB_ENV
        
       # - name: sync up templates dependency on maven release
       #   if: ${{ !contains(steps.version-change.outputs.CHANGED, 'templates@') && contains(steps.version-change.outputs.CHANGED, '@wenyt-ms/test1@') }}
@@ -87,16 +90,16 @@ jobs:
       #     echo "template_ver=$(git tag --points-at HEAD | grep templates)" >> $GITHUB_ENV 
       #     fi
 
-      - name: get current gitcommit id
-        id: GitCommit
-        run: |
-          echo "::set-output name=CHANGED::$(git rev-parse HEAD)"
+      # - name: get current gitcommit id
+      #   id: GitCommit
+      #   run: |
+      #     echo "::set-output name=CHANGED::$(git rev-parse HEAD)"
 
-      - name: Zip templates
-        uses: papeloto/action-zip@v1
-        with:
-          files: ./templates/simple
-          dest: ./simple.zip
+      # - name: Zip templates
+      #   uses: papeloto/action-zip@v1
+      #   with:
+      #     files: ./templates/simple
+      #     dest: ./simple.zip
 
       # - name: release templates' alpha version to github
       #   if: ${{ github.event.inputs.preid == 'alpha' && contains( env.template_ver , 'templates@') }}
@@ -108,21 +111,21 @@ jobs:
       #     tag: "templates@0.0.0-alpha"
       #     allowUpdates: true
       #     prerelease: true
-      - name: Tag Repo
-        uses: richardsimko/update-tag@v1
-        with:
-          tag_name: "templates@0.0.0-rc"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Tag Repo
+      #   uses: richardsimko/update-tag@v1
+      #   with:
+      #     tag_name: "templates@0.0.0-rc"
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: release templates' RC version to github
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' }}
-        uses: softprops/action-gh-release@v1
-        with:
-          files: ./*.zip
-          name: 'Release for template-rc'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: "templates@0.0.0-rc"
+      # - name: release templates' RC version to github
+      #   if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'rc' }}
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: ./*.zip
+      #     name: 'Release for template-rc'
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag_name: "templates@0.0.0-rc"
       
       # - name: Create Templates Stable Release
       #   if: ${{ contains( env.template_ver, 'templates@') && github.event_name == 'workflow_dispatch' && github.event.inputs.preid == 'stable' }}
