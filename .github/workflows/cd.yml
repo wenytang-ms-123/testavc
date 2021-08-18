@@ -19,10 +19,14 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.ref }}
 
+      - name: setup nuget
+        run: |
+          dotnet nuget add source --username wenytang-ms-123 --password ${{ secrets.GITHUB_TOKEN  }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/wenytang-ms-123/index.json"
+
       - name: release nuget
         run: |
           ls ./nuget
-          dotnet nuget push "./nuget/Microsoft.TeamsFx.SimpleAuth.0.1.0.nupkg" --api-key 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 --source "github"
+          dotnet nuget push "./nuget/Microsoft.TeamsFx.SimpleAuth.0.1.0.nupkg" --api-key ${{ secret.NUGET_PAT }} --source "github"
 
       # - name: Setup node
       #   uses: actions/setup-node@v2.1.2
