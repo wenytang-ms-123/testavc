@@ -21,7 +21,7 @@ jobs:
 
       - name: release nuget
         run: |
-          dotnet nuget push "./nuget/Microsoft.TeamsFx.SimpleAuth.0.1.0.nupkg" --api-key ${{ secrets.GITHUB_PAT }} --source "github"
+          dotnet nuget push "./nuget/Microsoft.TeamsFx.SimpleAuth.0.1.0.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
 
       # - name: Setup node
       #   uses: actions/setup-node@v2.1.2
