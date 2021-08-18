@@ -35,7 +35,7 @@ jobs:
       
       - name: publish
         run: |
-          dotnet nuget push "src/TeamsFxSimpleAuth/bin/Release/*.nupkg"  --api-key ${{ secrets.NUGET_PAT }} --source "github"
+          dotnet nuget push "src/TeamsFxSimpleAuth/bin/Release/Microsoft.TeamsFx.SimpleAuth.0.1.0.nupkg"  --api-key ${{ secrets.NUGET_PAT }} --source "github"
         working-directory: ./packages/simpleauth
 
       # - name: Setup node
