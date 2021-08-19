@@ -11,6 +11,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Add GPR Source using nuget.exe
       run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/wenytang-ms-123/index.json -Username wenytang-ms-123 -Password ${{ secrets.NUGET_PAT }} 
-    - name: dotnet build
+    - name: release nuget
       run: |
-        nuget push release/*.nupkg -source "GPR" -SkipDuplicate
+        nuget push release\Microsoft.TeamsFx.SimpleAuth.0.1.0.nupkg -source "GPR" -SkipDuplicate
