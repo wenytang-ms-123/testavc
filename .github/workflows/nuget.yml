@@ -18,4 +18,4 @@ jobs:
       working-directory: ./packages/simpleauth
     - name: nuget push
       run: nuget push .\src\TeamsFxSimpleAuth\bin\Release\*.nupkg -source "GPR" -SkipDuplicate
-      workding-directory: ./packages/simpleauth
+      working-directory: ./packages/simpleauth
