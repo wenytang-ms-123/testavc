@@ -5,13 +5,10 @@ on:
 jobs:
   Release:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '3.1.x'
     - name: Add GPR Source using nuget.exe
       run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/wenytang-ms-123/index.json -Username wenytang-ms-123 -Password ${{ secrets.NUGET_PAT }} 
     - name: dotnet build
