@@ -5,7 +5,7 @@ on:
 jobs:
   Release:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v1
@@ -17,5 +17,5 @@ jobs:
       run: dotnet build
       working-directory: ./packages/simpleauth
     - name: nuget push
-      run: nuget push .\src\TeamsFxSimpleAuth\bin\Release\*.nupkg -source "GPR" -SkipDuplicate
+      run: nuget push ./src/TeamsFxSimpleAuth/bin/Release/*.nupkg -source "GPR" -SkipDuplicate
       working-directory: ./packages/simpleauth
