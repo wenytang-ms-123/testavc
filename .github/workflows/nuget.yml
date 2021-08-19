@@ -1,0 +1,18 @@
+name: release Nuget
+on:
+  workflow_dispatch:
+
+jobs:
+  Release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup NuGet.exe for use with action
+        uses: NuGet/setup-nuget@v1.0.2
+      - name: Add GPR Source using nuget.exe
+        run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/wenytang-ms-123/index.json --Username wenytang-ms-123 -Password ${{ secrets.NUGET_PAT }}
+      - name: dotnet build
+        run: dotnet build --configuration Release
+        working-directory: ./packages/simpleauth
+      - name: nuget push
+        run: nuget push \src\TeamsSimpleAuth\bin\Release\*.nupkg -source "GPR" -SkipDuplicate
