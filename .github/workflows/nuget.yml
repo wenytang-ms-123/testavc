@@ -19,10 +19,6 @@ jobs:
         dotnet build --configuration Release
         ls ./src/TeamsFxSimpleAuth
         ls ./src/TeamsFxSimpleAuth/bin/
-      working-directory: ./packages/simpleauth
-
-    - name: nuget push
-      run: |
         ls ./src/TeamsFxSimpleAuth/bin/Release
         nuget push ./src/TeamsFxSimpleAuth/bin/Release/*.nupkg -source "GPR" -SkipDuplicate
       working-directory: ./packages/simpleauth
