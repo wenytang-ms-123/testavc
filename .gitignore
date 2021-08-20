@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+SimpleAuth.zip
+Microsoft.TeamsFx.SimpleAuth_*.zip
