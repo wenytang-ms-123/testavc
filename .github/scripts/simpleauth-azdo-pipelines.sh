@@ -1,15 +1,15 @@
 #!/bin/bash
-countNum=1
+countNum=1000
 restUrl="https://dev.azure.com/mseng/VSIoT/_apis/build/latest/$2?api-version=6.0-preview.1"
 rsp=$(curl -u :$1 $restUrl)
 status=$(echo $rsp | jq -r '.status')
 buildId=$(echo $rsp | jq -r '.buildNumber')
 
-while [[ $countNum -le 50 && "$status" != "completed" ]]
+while [[ $countNum -le 5000 && "$status" != "completed" ]]
 do 
     sleep $countNum
     status=$(curl -u :$1 $restUrl | jq -r '.status')
-    countNum=$(( $countNum + 5 ))
+    countNum=$(( $countNum + 1000 ))
 done
 if [[ "$status" != "completed" ]]
 then
