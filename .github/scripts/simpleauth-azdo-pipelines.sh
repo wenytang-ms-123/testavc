@@ -1,5 +1,6 @@
 #!/bin/bash
 countNum=1000
+sleep 1000
 restUrl="https://dev.azure.com/mseng/VSIoT/_apis/build/latest/$2?api-version=6.0-preview.1"
 echo "============ step1" 
 echo $restUrl
