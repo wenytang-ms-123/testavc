@@ -8,16 +8,24 @@ jobs:
     runs-on: windows-latest
     
     steps:
-    - uses: actions/checkout@v1
-    - name: Add GPR Source using nuget.exe
-      run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/wenytang-ms-123/index.json -Username wenytang-ms-123 -Password ${{ secrets.NUGET_PAT }} 
+    # - uses: actions/checkout@v1
+    # - name: Add GPR Source using nuget.exe
+    #   run: nuget sources add -name "GPR" -Source https://nuget.pkg.github.com/wenytang-ms-123/index.json -Username wenytang-ms-123 -Password ${{ secrets.NUGET_PAT }} 
 
-    - name: build nuget
-      run: |
-        dotnet build --configuration Release
-        dotnet pack
-      working-directory: ./packages/simpleauth   
-    - name: release nuget
-      run: |
-        nuget push src\TeamsFxSimpleAuth\bin\Debug\Microsoft.TeamsFx.SimpleAuth.0.1.0.nupkg -source "GPR" -SkipDuplicate
-      working-directory: ./packages/simpleauth
+    # - name: build nuget
+    #   run: |
+    #     dotnet build --configuration Release
+    #     dotnet pack
+    #   working-directory: ./packages/simpleauth   
+    # - name: release nuget
+    #   run: |
+    #     nuget push src\TeamsFxSimpleAuth\bin\Debug\Microsoft.TeamsFx.SimpleAuth.0.1.0.nupkg -source "GPR" -SkipDuplicate
+    #   working-directory: ./packages/simpleauth\
+      - name: echo test
+        id: test
+        run: 
+          echo "123123"
+
+      - name: grep 
+        run: |
+          echo $(gh run view --job test --log)
