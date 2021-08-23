@@ -93,6 +93,7 @@ jobs:
           output=$(./.github/scripts/simpleauth-azdo-pipelines.sh ${{ secrets.ADO_PAT }} 11303 >&1)
           if [ -z $output ]; then exit 1; fi
           simpleAuthVer=0.1.0
+          echo $output
           curl "https://dev.azure.com/mseng/_apis/resources/Containers/$output/drop?itemPath=drop/Microsoft.TeamsFx.SimpleAuth_$simpleAuthVer.zip" -L -O
           if [ ! -f Microsoft.TeamsFx.*.zip ]; then exit 1; fi
 
