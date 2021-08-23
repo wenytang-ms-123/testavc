@@ -28,4 +28,4 @@ jobs:
 
       - name: grep 
         run: |
-          echo $(gh run view --job test --log)
+          echo ${{steps.test.outputs}}
