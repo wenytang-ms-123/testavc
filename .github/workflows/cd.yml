@@ -90,7 +90,7 @@ jobs:
 
       - name: check build status and download assets
         run: |
-          output=$(./.github/scripts/simpleauth-azdo-pipelines.sh ${{ secrets.ADO_PAT }} 11303 >&1)
+          output=20839489
           if [ -z $output ]; then exit 1; fi
           simpleAuthVer=0.1.0
           echo $output
