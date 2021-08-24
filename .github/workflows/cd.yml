@@ -110,7 +110,7 @@ jobs:
       - name: publish simpleauth to github release page
         uses: ncipollo/release-action@v1.7.3
         with:
-          token: ${{ secrets.NUGET_PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           tag: "SimpleAuth@1.1.6"
           artifacts: Microsoft.TeamsFx.SimpleAuth_*.zip
       # - name: output
