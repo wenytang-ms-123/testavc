@@ -91,10 +91,11 @@ jobs:
       - name: check build status and download assets
         run: |
           output=$(./.github/scripts/simpleauth-azdo-pipelines.sh ${{ secrets.ADO_PAT }} 11303 >&1)
-          echo $output
           if [ -z $output ]; then exit 1; fi
+          echo $output
+          asset_id=$(echo $output | rev |cut -d ' ' -f 1)
           simpleAuthVer=0.1.0
-          curl "https://dev.azure.com/mseng/_apis/resources/Containers/$output/drop?itemPath=drop/Microsoft.TeamsFx.SimpleAuth_$simpleAuthVer.zip" -L -O
+          curl "https://dev.azure.com/mseng/_apis/resources/Containers/$asset_id/drop?itemPath=drop/Microsoft.TeamsFx.SimpleAuth_$simpleAuthVer.zip" -L -O
           if [ ! -f Microsoft.TeamsFx.*.zip ]; then exit 1; fi
 
       - name: download simpleauth to fx-core

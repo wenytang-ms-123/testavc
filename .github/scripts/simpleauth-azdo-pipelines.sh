@@ -19,8 +19,9 @@ if [[ "$status" != "completed" ]]
 then
 exit 1
 fi
-
+echo "------step2"
 restUrl="https://dev.azure.com/mseng/VSIoT/_apis/build/builds/$buildId/artifacts?api-version=6.0"
 asset_rsp=$(curl -u :$1 $restUrl)
-asset_id=$(echo $asset_rep | jq '.value |.[] | .resource' |jq '.data' | tr -d -c 0-9)
+echo $asset_rsp
+asset_id=$(echo $asset_rsp | jq '.value |.[] | .resource' |jq '.data' | tr -d -c 0-9)
 echo $asset_id
