@@ -97,6 +97,7 @@ jobs:
           simpleAuthVer=0.1.0
           curl "https://dev.azure.com/mseng/_apis/resources/Containers/$asset_id/drop?itemPath=drop/Microsoft.TeamsFx.SimpleAuth_$simpleAuthVer.zip" -L -O -u :${{ secrets.ADO_PAT}}
           if [ ! -f Microsoft.TeamsFx.*.zip ]; then exit 1; fi
+          ls -a
 
       - name: download simpleauth to fx-core
         uses: nick-invision/retry@v2
@@ -106,7 +107,7 @@ jobs:
           retry_on: error
           command: |
             cp Microsoft.TeamsFx.SimpleAuth_*.zip packages/test1/SimpleAuth.zip
-            ls packages/test1
+            ls packages/test1 -a
 
       - name: publish simpleauth to github release page
         uses: ncipollo/release-action@v1.7.3
