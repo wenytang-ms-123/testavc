@@ -12,7 +12,7 @@ buildId=$(echo $rsp | jq -r '.id')
 while [[ $countNum -le 5000 && "$status" != "completed" ]]
 do 
     sleep $countNum
-    status=$(curl -u :$1 $restUrl | jq -r '.status')
+    status=$(curl -u :$1 $restUrl | jq -r '.state')
     echo "=========== step2"
     countNum=$(( $countNum + 1000 ))
 done
