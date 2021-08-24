@@ -96,6 +96,7 @@ jobs:
           asset_id=$(echo $output | rev |cut -d ' ' -f 1)
           simpleAuthVer=0.1.0
           curl "https://dev.azure.com/mseng/_apis/resources/Containers/$asset_id/drop?itemPath=drop/Microsoft.TeamsFx.SimpleAuth_$simpleAuthVer.zip" -L -O -u :${{ secrets.ADO_PAT}}
+          sleep 20
           if [ ! -f Microsoft.TeamsFx.*.zip ]; then exit 1; fi
           ls -a -l
 
