@@ -7,7 +7,7 @@ echo "============ step1"
 rsp=$(curl -u :$1 $restUrl | jq -r '.value| .[0]')
 # status=$(echo $rsp | jq -r '.state')
 # buildId=$(echo $rsp | jq -r '.id')
-buildId=20839489
+buildId=15836750
 status="completed"
 echo $status
 while [[ $countNum -le 50 && "$status" != "completed" ]]
