@@ -26,7 +26,8 @@ exit 1
 fi
 
 restUrl="https://dev.azure.com/mseng/VSIoT/_apis/build/builds/$buildId/artifacts?api-version=6.0"
-asset_id=$(curl -u :$1 $restUrl | jq '.value |.[] | .resource' |jq '.data' | tr -d -c 0-9)
+asset_rsp=$(curl -u :$1 $restUrl)
+asset_id=$(echo $asset_rep | jq '.value |.[] | .resource' |jq '.data' | tr -d -c 0-9)
 echo "=============== step3"
 echo $restUrl
 echo $asset_id
