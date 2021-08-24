@@ -95,7 +95,7 @@ jobs:
           echo $output
           asset_id=$(echo $output | rev |cut -d ' ' -f 1)
           simpleAuthVer=0.1.0
-          curl "https://dev.azure.com/mseng/_apis/resources/Containers/$asset_id/drop?itemPath=drop/Microsoft.TeamsFx.SimpleAuth_$simpleAuthVer.zip" -L -O
+          curl "https://dev.azure.com/mseng/_apis/resources/Containers/$asset_id/drop?itemPath=drop/Microsoft.TeamsFx.SimpleAuth_$simpleAuthVer.zip" -L -O -u :${{ secrets.ADO_PAT}}
           if [ ! -f Microsoft.TeamsFx.*.zip ]; then exit 1; fi
 
       - name: download simpleauth to fx-core
