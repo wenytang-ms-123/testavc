@@ -5,8 +5,10 @@ restUrl="https://dev.azure.com/mseng/VSIoT/_apis/pipelines/$2/runs?api-version=6
 echo "============ step1" 
 
 rsp=$(curl -u :$1 $restUrl | jq -r '.value| .[0]')
-status=$(echo $rsp | jq -r '.state')
-buildId=$(echo $rsp | jq -r '.id')
+# status=$(echo $rsp | jq -r '.state')
+# buildId=$(echo $rsp | jq -r '.id')
+buildId=20839489
+status="completed"
 echo $status
 while [[ $countNum -le 50 && "$status" != "completed" ]]
 do 

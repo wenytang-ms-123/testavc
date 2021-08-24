@@ -81,19 +81,19 @@ jobs:
       #         git push -d origin $(git tag --points-at HEAD | grep templates | grep rc)
       #     fi
 
-      - name: trigger simpleauth azure build pipeline
-        uses: Azure/pipelines@v1
-        with:
-          azure-devops-project-url: 'https://dev.azure.com/mseng/VSIoT'
-          azure-pipeline-name: 'Build Simple Auth Release Artifacts' 
-          azure-devops-token: '${{ secrets.ADO_PAT }}'
+      # - name: trigger simpleauth azure build pipeline
+      #   uses: Azure/pipelines@v1
+      #   with:
+      #     azure-devops-project-url: 'https://dev.azure.com/mseng/VSIoT'
+      #     azure-pipeline-name: 'Build Simple Auth Release Artifacts' 
+      #     azure-devops-token: '${{ secrets.ADO_PAT }}'
 
       - name: check build status and download assets
         run: |
-          output=20839489
+          output=$(./.github/scripts/simpleauth-azdo-pipelines.sh ${{ secrets.ADO_PAT }} 11303 >&1)
+          echo $output
           if [ -z $output ]; then exit 1; fi
           simpleAuthVer=0.1.0
-          echo $output
           curl "https://dev.azure.com/mseng/_apis/resources/Containers/$output/drop?itemPath=drop/Microsoft.TeamsFx.SimpleAuth_$simpleAuthVer.zip" -L -O
           if [ ! -f Microsoft.TeamsFx.*.zip ]; then exit 1; fi
 
