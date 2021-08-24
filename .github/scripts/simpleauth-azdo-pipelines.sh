@@ -1,20 +1,22 @@
 #!/bin/bash
-countNum=1000
+countNum=1
 # sleep 100
-restUrl="https://dev.azure.com/mseng/VSIoT/_apis/pipelines/11303/runs?api-version=6.0-preview.1"
+restUrl="https://dev.azure.com/mseng/VSIoT/_apis/pipelines/$2/runs?api-version=6.0-preview.1"
 echo "============ step1" 
 
 rsp=$(curl -u :$1 $restUrl | jq -r '.value| .[0]')
 status=$(echo $rsp | jq -r '.state')
 buildId=$(echo $rsp | jq -r '.id')
-
-while [[ $countNum -le 5000 && "$status" != "completed" ]]
+echo $status
+while [[ $countNum -le 50 && "$status" != "completed" ]]
 do 
-    sleep $countNum
+    echo "----------"
+    sleep 1m
     rsp=$(curl -u :$1 $restUrl | jq -r '.value| .[0]')
     status=$(echo $rsp | jq -r '.state')
     echo "=========== step2"
-    countNum=$(( $countNum + 1000 ))
+    countNum=$(( $countNum + 1 ))
+    echo $status
 done
 if [[ "$status" != "completed" ]]
 then
