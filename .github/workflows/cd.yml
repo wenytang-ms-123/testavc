@@ -112,7 +112,7 @@ jobs:
         uses: ncipollo/release-action@v1.7.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "SimpleAuth@1.1.6"
+          tag: "SimpleAuth@1.1.7"
           artifacts: Microsoft.TeamsFx.SimpleAuth_*.zip
       # - name: output
       #   run: |
