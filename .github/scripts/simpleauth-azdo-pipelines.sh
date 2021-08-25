@@ -4,10 +4,8 @@ countNum=1
 restUrl="https://dev.azure.com/mseng/VSIoT/_apis/pipelines/$2/runs?api-version=6.0-preview.1"
 
 rsp=$(curl -u :$1 $restUrl | jq -r '.value| .[0]')
-# status=$(echo $rsp | jq -r '.state')
-# buildId=$(echo $rsp | jq -r '.id')
-buildId=15836750
-status="completed"
+status=$(echo $rsp | jq -r '.state')
+buildId=$(echo $rsp | jq -r '.id')
 while [[ $countNum -le 50 && "$status" != "completed" ]]
 do 
     sleep 1m
