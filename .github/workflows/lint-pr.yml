@@ -39,7 +39,7 @@ jobs:
           node-version: 14
 
       - name: prettier check files in PR on Fork
-        if: ${{ github.event.pull_request.head.repo.full_name != 'OfficeDev/TeamsFx' }}
+        if: ${{ github.event.pull_request.head.repo.full_name != 'wenytang-ms-123/testavc' }}
         run: |
           git remote -v
           git remote add upstream https://github.com/wenytang-ms-123/testavc.git
@@ -49,7 +49,7 @@ jobs:
           npx lerna exec -- bash $VAR upstream/${{ github.event.pull_request.base.ref }}
 
       - name: prettier check files in PR on local
-        if: ${{ github.event.pull_request.head.repo.full_name == 'OfficeDev/TeamsFx' }}
+        if: ${{ github.event.pull_request.head.repo.full_name == 'wenytang-ms-123/testavc' }}
         run: |
           VAR=$(realpath .github/scripts/lint-pr.sh)
           npx lerna exec -- bash $VAR origin/${{ github.event.pull_request.base.ref }}
