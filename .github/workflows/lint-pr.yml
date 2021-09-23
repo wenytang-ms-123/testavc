@@ -16,19 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup project
         run: |
           npm run setup
 
-  target-branch-test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
-      - name: Setup project
+      - name: if upstream
         run: |
-          npm run setup
+          echo ${{ github.event.pull_request.head.base }}
