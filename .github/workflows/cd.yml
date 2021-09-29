@@ -112,6 +112,5 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: SimpleAuth
           path: |
             ./Microsoft.TeamsFx.SimpleAuth_*.zip
