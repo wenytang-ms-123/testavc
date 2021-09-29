@@ -100,12 +100,18 @@ jobs:
           files: ./packages/simpleauth/src/TeamsFxSimpleAuth/bin/Release/netcoreapp3.1
           dest: ./Microsoft.TeamsFx.SimpleAuth_${{ steps.version-change.outputs.SIMPLE_VERSOIN }}.zip
       
-      - name: Release SimpleAuth to GitHub
-        uses: ncipollo/release-action@v1.7.3
+      # - name: Release SimpleAuth to GitHub
+      #   uses: ncipollo/release-action@v1.7.3
+      #   with:
+      #     artifacts: ./Microsoft.TeamsFx.SimpleAuth_${{ steps.version-change.outputs.SIMPLE_VERSOIN }}.zip
+      #     name: 'SimpleAuth Release'
+      #     body: 'Release SimpleAuth to GitHub Release page.'
+      #     token: ${{ secrets.github_token }}
+      #     tag: ${{ steps.version-change.outputs.SIMPLE_VERSOIN }}
+      #     allowUpdates: true  
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
         with:
-          artifacts: ./Microsoft.TeamsFx.SimpleAuth_${{ steps.version-change.outputs.SIMPLE_VERSOIN }}.zip
-          name: 'SimpleAuth Release'
-          body: 'Release SimpleAuth to GitHub Release page.'
-          token: ${{ secrets.github_token }}
-          tag: ${{ steps.version-change.outputs.SIMPLE_VERSOIN }}
-          allowUpdates: true  
+          name: SimpleAuth
+          path: |
+            ./Microsoft.TeamsFx.SimpleAuth_*.zip
