@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [8.0.0](https://github.com/wenytang-ms-123/testavc/compare/@wenytang-ms/test1@8.0.0-rc.0...@wenytang-ms/test1@8.0.0) (2021-09-30)
+
+
+### Bug Fixes
+
+* add console log on test1 ([9719c4e](https://github.com/wenytang-ms-123/testavc/commit/9719c4e7144a643b47f4fc34679aff1697fa8161))
+
+
+
+
+
 # 10.0.0 (2021-08-03)
 
 
