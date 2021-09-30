@@ -8,7 +8,8 @@
         "lint:fix": "eslint \"src/**/*.ts\" \"tests/**/*.ts\" --fix",
         "precommit": "lint-staged",
         "version": "./scripts/version.sh",
-        "postversion": "./scripts/postversion.sh"
+        "postversion": "./scripts/postversion.sh",
+        "prepare": "echo ================================= hello test1"
     },
     "devDependencies": {
         "@shared/eslint-config": "file:../eslint-config",
